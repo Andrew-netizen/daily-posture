@@ -1,0 +1,27 @@
+<div class="card m-2" style="width: 18rem">
+  <div class="card-header">
+    <h5>TIMER</h5>
+  </div>
+  <div class="card-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col">
+          <h1 style="text-align: center">
+            <countdown #cd [config]="{demand: true, leftTime: 1800}" ></countdown>
+          </h1>
+        </div>
+      </div>
+      <div class="row no-gutters">
+        <div class="col col-4 col-centered">
+          <button class="btn btn-primary" (click)="startTimer()" style="width:5rem">PLAY</button>
+        </div>
+        <div class="col col-4 col-centered">
+          <button class="btn btn-primary" (click)="pauseTimer()" style="width:5rem">PAUSE</button>
+        </div>
+        <div class="col col-4 col-centered">
+          <button class="btn btn-primary" (click)="resetTimer()" style="width:5rem">RESET</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

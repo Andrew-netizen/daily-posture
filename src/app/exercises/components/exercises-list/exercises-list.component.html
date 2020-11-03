@@ -1,0 +1,8 @@
+<div class="card m-2" style="width: 18rem">
+  <div class="card-header">
+    <h5>EXERCISES</h5>
+  </div>
+  <ul class="list-group list-group-flush">
+    <app-exercises-row *ngFor="let myExercise of exercises" [exercise]="myExercise"></app-exercises-row>
+  </ul>
+</div>

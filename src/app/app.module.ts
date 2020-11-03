@@ -1,14 +1,19 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { TimerComponent } from './timer/timer.component';
 import { SettingsComponent } from './settings/settings.component';
-import { ExercisesComponent } from './exercises/exercises.component';
 import { RouterModule } from '@angular/router';
 import { CountdownModule } from 'ngx-countdown';
+import { NgxNavbarModule } from 'ngx-bootstrap-navbar';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { ExercisesShellComponent } from './exercises/containers/exercises-shell/exercises-shell.component';
+import { ExercisesListComponent } from './exercises/components/exercises-list/exercises-list.component';
+import { ExercisesRowComponent } from './exercises/components/exercises-row/exercises-row.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -16,19 +21,25 @@ import { CountdownModule } from 'ngx-countdown';
     NavMenuComponent,
     TimerComponent,
     SettingsComponent,
-    ExercisesComponent
+    ExercisesShellComponent,
+    ExercisesListComponent,
+    ExercisesRowComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
+    NgxNavbarModule,
+    ModalModule,
     CountdownModule,
     RouterModule.forRoot([
       { path: '', component: TimerComponent, pathMatch: 'full' },
-      { path: 'exercises', component: ExercisesComponent },
-      { path: 'settings', component: SettingsComponent }
-    ])
+      { path: 'exercises', component: ExercisesShellComponent },
+      { path: 'settings', component: SettingsComponent },
+    ]),
+    NgbModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

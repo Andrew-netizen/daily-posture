@@ -5,9 +5,9 @@
   <div class="card-body">
     <div class="container-fluid">
       <div class="row">
-        <div class="col">
-          <h1 style="text-align: center">
-            <countdown #cd [config]="{demand: true, leftTime: 1800}" ></countdown>
+        <div class="col text-center">
+          <h1>
+            <countdown #cd [config]="{demand: true, leftTime: 1800}" (event)="handleEvent($event)"></countdown>
           </h1>
         </div>
       </div>
@@ -22,6 +22,24 @@
           <button class="btn btn-primary" (click)="resetTimer()" style="width:5rem">RESET</button>
         </div>
       </div>
+      <div class="card-body text-center" >
+            Next Exercise: {{ nextExerciseTitle$ | async }}
+      </div>
     </div>
   </div>
 </div>
+
+<ng-template #modalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Next exercise: {{nextExerciseTitle$ | async }}</h4>
+    <button type="button" class="btn btn-outline-secondary" aria-label="Close" (click)="modal.close('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      {{nextExerciseDescription$ | async }}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" ngbAutoFocus (click)="modal.close('Done')">DONE</button>
+  </div>
+</ng-template>

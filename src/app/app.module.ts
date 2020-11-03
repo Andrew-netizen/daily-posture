@@ -8,8 +8,6 @@ import { TimerComponent } from './timer/timer.component';
 import { SettingsComponent } from './settings/settings.component';
 import { RouterModule } from '@angular/router';
 import { CountdownModule } from 'ngx-countdown';
-import { NgxNavbarModule } from 'ngx-bootstrap-navbar';
-import { ModalModule } from 'ngx-bootstrap/modal';
 import { ExercisesShellComponent } from './exercises/containers/exercises-shell/exercises-shell.component';
 import { ExercisesListComponent } from './exercises/components/exercises-list/exercises-list.component';
 import { ExercisesRowComponent } from './exercises/components/exercises-row/exercises-row.component';
@@ -29,8 +27,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    NgxNavbarModule,
-    ModalModule,
     CountdownModule,
     RouterModule.forRoot([
       { path: '', component: TimerComponent, pathMatch: 'full' },

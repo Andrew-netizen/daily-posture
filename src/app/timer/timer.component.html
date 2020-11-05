@@ -7,7 +7,7 @@
       <div class="row">
         <div class="col text-center">
           <h1>
-            <countdown #cd [config]="{demand: true, leftTime: 1800}" (event)="handleEvent($event)"></countdown>
+            {{ timeRemaining$ | async }}
           </h1>
         </div>
       </div>

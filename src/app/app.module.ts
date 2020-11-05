@@ -11,6 +11,8 @@ import { CountdownModule } from 'ngx-countdown';
 import { ExercisesShellComponent } from './exercises/containers/exercises-shell/exercises-shell.component';
 import { ExercisesListComponent } from './exercises/components/exercises-list/exercises-list.component';
 import { ExercisesRowComponent } from './exercises/components/exercises-row/exercises-row.component';
+import {ExercisesModalComponent} from './exercises/components/exercise-modal/exercise-modal.component';
+
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -21,7 +23,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     SettingsComponent,
     ExercisesShellComponent,
     ExercisesListComponent,
-    ExercisesRowComponent
+    ExercisesRowComponent,
+    ExercisesModalComponent
   ],
   imports: [
     BrowserModule,

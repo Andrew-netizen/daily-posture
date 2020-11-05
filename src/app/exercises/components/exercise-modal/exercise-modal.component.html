@@ -1,0 +1,12 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Next exercise: {{nextExerciseTitle  }}</h4>
+  <button type="button" class="btn btn-outline-secondary" aria-label="Close" (click)="activeModal.close('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+    {{nextExerciseDescription }}
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" ngbAutoFocus (click)="activeModal.close('Done')">DONE</button>
+</div>

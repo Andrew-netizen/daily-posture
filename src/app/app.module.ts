@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,7 +12,7 @@ import { CountdownModule } from 'ngx-countdown';
 import { ExercisesShellComponent } from './exercises/containers/exercises-shell/exercises-shell.component';
 import { ExercisesListComponent } from './exercises/components/exercises-list/exercises-list.component';
 import { ExercisesRowComponent } from './exercises/components/exercises-row/exercises-row.component';
-import {ExercisesModalComponent} from './exercises/components/exercise-modal/exercise-modal.component';
+import { ExercisesModalComponent } from './exercises/components/exercise-modal/exercise-modal.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -24,10 +25,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ExercisesShellComponent,
     ExercisesListComponent,
     ExercisesRowComponent,
-    ExercisesModalComponent
+    ExercisesModalComponent,
   ],
   imports: [
     BrowserModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     CountdownModule,
@@ -36,7 +38,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
       { path: 'exercises', component: ExercisesShellComponent },
       { path: 'settings', component: SettingsComponent },
     ]),
-    NgbModule
+    NgbModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

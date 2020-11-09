@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="card-body text-center" >
-            Next Exercise: {{ nextExerciseTitle$ | async }}
+            Next Exercise: {{ (nextExercise$ | async).title }}
       </div>
     </div>
   </div>

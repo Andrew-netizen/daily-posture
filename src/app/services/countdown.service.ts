@@ -2,7 +2,7 @@ import { formatNumber } from '@angular/common';
 import { Injectable, OnDestroy } from '@angular/core';
 import {
   BehaviorSubject,
-  NEVER,
+  EMPTY,
   Observable,
   Subject,
   Subscription,
@@ -11,6 +11,7 @@ import {
 import { filter, first, map, switchMap, skip, takeWhile } from 'rxjs/operators';
 import { AppComponent } from '../app.component';
 import { ExerciseService } from './exercise.service';
+import { SettingsService } from './settings.service';
 import { SynthesisService } from './synthesis.service';
 
 @Injectable({
@@ -30,8 +31,12 @@ export class CountdownService implements OnDestroy {
   // The last published value of the number of seconds remaining.
   private lastSecondsRemaining: number;
 
+  // Get the timer total seconds from the user settings.
+  private totalSecondsSetting: number;
+
   private secondsRemainingSubscription: Subscription;
   private timerCompletedSubscription: Subscription;
+  private settingsStateSubscription: Subscription;
 
   // Need a reference to the app Component
   private mAppComponent: AppComponent;
@@ -43,10 +48,11 @@ export class CountdownService implements OnDestroy {
 
   constructor(
     private exerciseService: ExerciseService,
-    private synthesisService: SynthesisService
+    private synthesisService: SynthesisService,
+    private settingsService: SettingsService
   ) {
     this.defineSubscriptions();
-    this.setTimeLeft(1800);
+    this.setTimeLeft(this.totalSecondsSetting);
   }
 
   ngOnDestroy(): void {
@@ -89,7 +95,7 @@ export class CountdownService implements OnDestroy {
 
   resetTimer(seconds: number): void {
     // The unsubscribe/subscribe functionality is necessary because once the
-    // seondsRemaining$ observable completes, it will not publish again.
+    // secondsRemaining$ observable completes, it will not publish again.
     // This means it must be recreated.
     this.performUnsubscriptions();
     this.defineSubscriptions();
@@ -97,9 +103,16 @@ export class CountdownService implements OnDestroy {
   }
 
   defineSubscriptions(): void {
+    this.settingsStateSubscription = this.settingsService.timerSettingsState$.subscribe(
+      (timerSettingsState) => {
+        this.totalSecondsSetting = timerSettingsState.TotalTime.totalSeconds;
+        this.setTimeLeft(this.totalSecondsSetting);
+      }
+    );
+
     this.secondsRemaining$ = this.timerRunning$.pipe(
       switchMap((running: boolean) => {
-        return running ? timer(0, 1000) : NEVER;
+        return running ? timer(0, 1000) : EMPTY;
       }),
       map(this.toRemainingSeconds),
       takeWhile((t) => t >= 0)
@@ -119,19 +132,14 @@ export class CountdownService implements OnDestroy {
     this.timerCompletedSubscription = this.timerCompleted$.subscribe(
       async (result) => {
         if (result) {
-          const nextExerciseDescription = await this.getValue(
-            this.exerciseService.nextExerciseDescription$
-          );
-          const nextExerciseTitle = await this.getValue(
-            this.exerciseService.nextExerciseTitle$
-          );
+          const nextExercise = await this.getValue(this.exerciseService.nextExercise$);
 
           this.mAppComponent.openExerciseModalDialog(
-            nextExerciseTitle,
-            nextExerciseDescription
+            nextExercise.title,
+            nextExercise.description
           );
 
-          this.synthesisService.updateMessage(nextExerciseDescription);
+          this.synthesisService.updateMessage(nextExercise.description);
           this.synthesisService.speak();
         }
       }
@@ -144,6 +152,9 @@ export class CountdownService implements OnDestroy {
 
     if (this.hasValue(this.secondsRemainingSubscription))
       this.secondsRemainingSubscription.unsubscribe();
+
+    if (this.hasValue(this.settingsStateSubscription))
+      this.settingsStateSubscription.unsubscribe();
   }
 
   hasValue(value: any): boolean {

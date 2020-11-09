@@ -1,1 +1,49 @@
-<p>settings works!</p>
+<div class="card m-2" style="width: 18rem">
+  <div class="card-header">
+    <h5>SETTINGS</h5>
+  </div>
+
+    <form
+      (ngSubmit)="saveSettings(this.timerSettingsState)"
+      [formGroup]="settingsForm"
+    >
+    <div class="card-body no-gutter">
+      <div class="row no-gutters">
+        <div class="col col-4 col-centered">
+          <label for="hoursId">Hours</label>
+          <input
+            id="hoursId"
+            type="number"
+            min="0"
+            max="59"
+            formControlName="hours"
+          />
+        </div>
+        <div class="col col-4 col-centered">
+          <label for="minutesId">Minutes</label>
+          <input
+            id="minutesId"
+            type="number"
+            min="0"
+            max="59"
+            formControlName="minutes"
+          />
+        </div>
+        <div class="col col-4 col-centered">
+          <label for="secondsId">Seconds</label>
+          <input id="secondsId" type="number" min="0" max="59" formControlName="seconds" />
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="!settingsForm.valid || !settingsForm.dirty"
+    >
+      Save
+    </button>
+    </div>
+
+  </form>
+</div>

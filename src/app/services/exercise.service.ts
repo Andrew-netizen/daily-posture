@@ -19,21 +19,12 @@ export class ExerciseService {
     return this.mExercises$;
   }
 
-  public nextExerciseTitle$ = combineLatest([
+  public nextExercise$ = combineLatest([
     this.mExercises$,
     this.exerciseIndex$,
   ]).pipe(
     map(([exercisesList, index]) => {
-      return exercisesList[index].title;
-    })
-  );
-
-  public nextExerciseDescription$ = combineLatest([
-    this.mExercises$,
-    this.exerciseIndex$,
-  ]).pipe(
-    map(([exercisesList, index]) => {
-      return exercisesList[index].description;
+      return exercisesList[index];
     })
   );
 
@@ -54,7 +45,7 @@ export class ExerciseService {
       new Exercise('Grab', 'Stand up and grab your backside for 20 seconds'),
       new Exercise('Reverse Lunges', 'Do 10 reverse lunges'),
       new Exercise('Bird Dog', 'Do 12 bird dog exercises'),
-      new Exercise('Thread the Needle', 'Do 10 lots of thread the needle')
+      new Exercise('Thread the Needle', 'Do 10 lots of thread the needle'),
     ];
   }
 }

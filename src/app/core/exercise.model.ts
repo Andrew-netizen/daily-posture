@@ -1,4 +1,3 @@
 export class Exercise {
-
-  constructor(public  title: string, public description: string ) {}
+  constructor(public title: string, public description: string) {}
 }

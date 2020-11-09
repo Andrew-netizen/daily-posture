@@ -1,35 +1,49 @@
 import {
   Component,
-  ElementRef,
   OnDestroy,
-  OnInit,
-  ViewChild,
-  Injector,
+  OnInit
 } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { takeWhile } from 'rxjs/operators';
+import { Exercise } from '../core/exercise.model';
+import { TimerSettingsState } from '../core/timer-settings.state';
 import { CountdownService } from '../services/countdown.service';
 import { ExerciseService } from '../services/exercise.service';
+import { SettingsService } from '../services/settings.service';
 
 @Component({
   selector: 'app-timer',
   templateUrl: './timer.component.html',
   styleUrls: ['./timer.component.scss'],
 })
-export class TimerComponent implements OnInit {
+export class TimerComponent implements OnInit, OnDestroy {
   timeRemaining$: BehaviorSubject<string>;
 
-  nextExerciseTitle$: Observable<string>;
+  nextExercise$: Observable<Exercise>;
+  private settingsState: TimerSettingsState;
+  private componentActive: boolean = true;
+  private stateSubscription: Subscription;
 
   constructor(
     private exerciseService: ExerciseService,
-    private countdownService: CountdownService
+    private countdownService: CountdownService,
+    private settingsService: SettingsService
   ) {}
+
 
   ngOnInit(): void {
     this.timeRemaining$ = this.countdownService.timeRemaining$;
-    this.nextExerciseTitle$ = this.exerciseService.nextExerciseTitle$;
+    this.nextExercise$ = this.exerciseService.nextExercise$;
+    this.stateSubscription = this.settingsService.timerSettingsState$
+    .pipe(takeWhile(() => this.componentActive))
+    .subscribe((timerSettingsState) => {
+      this.settingsState = timerSettingsState;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.componentActive = false;
+    this.stateSubscription.unsubscribe();
   }
 
   startTimer(): void {
@@ -41,6 +55,6 @@ export class TimerComponent implements OnInit {
   }
 
   resetTimer(): void {
-    this.countdownService.resetTimer(1800);
+    this.countdownService.resetTimer(this.settingsState.TotalTime.totalSeconds);
   }
 }

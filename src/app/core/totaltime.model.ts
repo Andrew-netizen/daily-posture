@@ -1,30 +1,18 @@
-import {Serializable, Serialize, SerializeProperty} from 'ts-serializer';
-
-interface TotalTimeJSON {
+export interface TotalTimeJSON {
   hours: number;
   minutes: number;
   seconds: number;
-  totalSeconds: number;
 }
 
-@Serialize({})
-export class TotalTime extends Serializable {
+export class TotalTime  {
 
-  @SerializeProperty({})
-  _seconds: number = 0;
-
-  @SerializeProperty({})
-  _minutes: number = 0;
-
-  @SerializeProperty({})
-  _hours: number = 0;
-
-  @SerializeProperty({})
-  _totalSeconds: number = 0;
+  private _seconds: number = 0;
+  private _minutes: number = 0;
+  private _hours: number = 0;
+  private _totalSeconds: number = 0;
 
   constructor(hours: number = 0, minutes: number = 0, seconds: number = 0)
   {
-    super();
     this.hours = hours;
     this.minutes = minutes;
     this.seconds = seconds;
@@ -83,5 +71,27 @@ export class TotalTime extends Serializable {
         minutes: this.minutes,
         seconds: this.seconds,
     });
+  }
+
+  static fromJSON(json: TotalTimeJSON|string): TotalTime {
+    if (typeof json === 'string') {
+      // if it's a string, parse it first
+      return JSON.parse(json, TotalTime.reviver);
+    } else {
+      // create an instance of the TotalTime class
+      let totalTime = Object.create(TotalTime.prototype);
+      // copy all the fields from the json object
+      return Object.assign(totalTime, json, {
+        hours: json.hours,
+        minutes: json.minutes,
+        seconds: json.seconds
+      });
+    }
+  }
+
+   // reviver can be passed as the second parameter to JSON.parse
+  // to automatically call TotalTime.fromJSON on the resulting value.
+  static reviver(key: string, value: any): any {
+    return key === "" ? TotalTime.fromJSON(value) : value;
   }
 }

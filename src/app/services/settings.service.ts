@@ -14,25 +14,21 @@ export class SettingsService {
 
   constructor() {
 
-    var stateSetFromStorage: boolean = false;
+    var stateSetFromLocalStorage: boolean = false;
 
-    const savedSettingsText = localStorage.getItem(settingsKey);
-    if (savedSettingsText)
+    const localStorageSettingsText = localStorage.getItem(settingsKey);
+    if (localStorageSettingsText)
     {
-      var settingsObject = new TimerSettingsState(null,false);
-      settingsObject.deserialize(JSON.parse(savedSettingsText));
-      if (settingsObject instanceof TimerSettingsState)
+      let localStorageSettingsState = TimerSettingsState.fromJSON(localStorageSettingsText);
+      if (localStorageSettingsState instanceof TimerSettingsState)
       {
-        console.log("settingsobbject totaltime seconds ", settingsObject.TotalTime._seconds);
-        var savedTotalTime = new TotalTime (settingsObject.TotalTime._hours, settingsObject.TotalTime._minutes, settingsObject.TotalTime._seconds);
-        var savedSettings = new TimerSettingsState(savedTotalTime, false);
         this.timerSettingsStore = new TimerSettingsStore();
-        this.timerSettingsStore.setState(savedSettings);
-        stateSetFromStorage = true;
+        this.timerSettingsStore.setState(localStorageSettingsState);
+        stateSetFromLocalStorage = true;
       }
     }
 
-    if (!stateSetFromStorage)
+    if (!stateSetFromLocalStorage)
     {
       let state = new TimerSettingsState(new TotalTime(0,30,0), false);
       this.timerSettingsStore = new TimerSettingsStore();
@@ -43,9 +39,7 @@ export class SettingsService {
 
   saveSettings(timerSettingsState: TimerSettingsState) {
     this.timerSettingsStore.setState(timerSettingsState);
-
-    console.log("saving to local storage:", timerSettingsState.serialize());
-    localStorage.setItem(settingsKey, JSON.stringify(timerSettingsState.serialize()));
+    localStorage.setItem(settingsKey, JSON.stringify(timerSettingsState.toJSON()));
   }
 
   get timerSettingsState$(): Observable<TimerSettingsState> {

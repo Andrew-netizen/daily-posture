@@ -27,7 +27,6 @@
     "ngx-toastr": "^13.1.0",
     "rxjs": "~6.6.0",
     "rxjs-observable-store": "^3.0.4",
-    "ts-serializer": "^2.2.6",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
   },

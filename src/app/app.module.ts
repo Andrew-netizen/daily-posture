@@ -8,7 +8,6 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { TimerComponent } from './timer/timer.component';
 import { SettingsComponent } from './settings/settings.component';
 import { RouterModule } from '@angular/router';
-import { CountdownModule } from 'ngx-countdown';
 import { ExercisesShellComponent } from './exercises/containers/exercises-shell/exercises-shell.component';
 import { ExercisesListComponent } from './exercises/components/exercises-list/exercises-list.component';
 import { ExercisesRowComponent } from './exercises/components/exercises-row/exercises-row.component';
@@ -32,7 +31,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    CountdownModule,
     RouterModule.forRoot([
       { path: '', component: TimerComponent, pathMatch: 'full' },
       { path: 'exercises', component: ExercisesShellComponent },

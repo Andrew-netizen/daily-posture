@@ -51,12 +51,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
           this.settingsForm.controls['seconds'].value
         );
         const newState = new TimerSettingsState(totalTime, false);
-        const settings = {
-          ...this.timerSettingsState,
-          ...newState,
-        };
 
-        this.settingsService.saveSettings(settings);
+        this.settingsService.saveSettings(newState);
       }
     }
   }

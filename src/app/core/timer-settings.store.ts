@@ -8,6 +8,6 @@ import { TotalTime } from './totaltime.model';
 export class TimerSettingsStore extends Store<TimerSettingsState> {
 
   constructor() {
-    super(new TimerSettingsState(new TotalTime(0,30,0), false));
+    super(new TimerSettingsState(new TotalTime(), false));
   }
 }

@@ -24,10 +24,10 @@
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
     "bootstrap": "^4.5.3",
     "ng-bootstrap": "^1.6.3",
-    "ngx-countdown": "^10.0.1",
     "ngx-toastr": "^13.1.0",
     "rxjs": "~6.6.0",
     "rxjs-observable-store": "^3.0.4",
+    "ts-serializer": "^2.2.6",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
   },

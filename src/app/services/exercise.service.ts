@@ -46,6 +46,7 @@ export class ExerciseService {
       new Exercise('Reverse Lunges', 'Do 10 reverse lunges'),
       new Exercise('Bird Dog', 'Do 12 bird dog exercises'),
       new Exercise('Thread the Needle', 'Do 10 lots of thread the needle'),
+      new Exercise('Pigeon Stretch', 'Do 5 pigeon stretches on each leg'),
     ];
   }
 }

@@ -2,13 +2,14 @@ import { formatNumber } from '@angular/common';
 import { Injectable, OnDestroy } from '@angular/core';
 import {
   BehaviorSubject,
+  combineLatest,
   EMPTY,
   Observable,
   Subject,
   Subscription,
   timer,
 } from 'rxjs';
-import { filter, first, map, switchMap, skip, takeWhile } from 'rxjs/operators';
+import { filter, first, map, switchMap, skip, takeWhile, withLatestFrom } from 'rxjs/operators';
 import { AppComponent } from '../app.component';
 import { ExerciseService } from './exercise.service';
 import { SettingsService } from './settings.service';
@@ -129,22 +130,21 @@ export class CountdownService implements OnDestroy {
       },
     });
 
-    this.timerCompletedSubscription = this.timerCompleted$.subscribe(
-      async (result) => {
-        if (result) {
-          const nextExercise = await this.getValue(this.exerciseService.nextExercise$);
-
+    this.timerCompletedSubscription =
+      this.timerCompleted$.pipe(
+        withLatestFrom(this.exerciseService.nextExercise$)
+      ).subscribe(([completed, nextExercise]) => {
+        if (completed) {
           this.mAppComponent.openExerciseModalDialog(
             nextExercise.title,
             nextExercise.description
           );
-
           this.synthesisService.updateMessage(nextExercise.description);
           this.synthesisService.speak();
         }
-      }
-    );
-  }
+      });
+
+    }
 
   performUnsubscriptions(): void {
     if (this.hasValue(this.timerCompletedSubscription))
@@ -161,7 +161,4 @@ export class CountdownService implements OnDestroy {
     return value !== null && value !== undefined;
   }
 
-  getValue<T>(observable: Observable<T>): Promise<T> {
-    return observable.pipe(filter(this.hasValue), first()).toPromise();
-  }
 }

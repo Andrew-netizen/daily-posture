@@ -14,6 +14,7 @@ import { ExercisesRowComponent } from './exercises/components/exercises-row/exer
 import { ExercisesModalComponent } from './exercises/components/exercise-modal/exercise-modal.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AddExerciseModalComponent } from './exercises/components/add-exercise-modal/add-exercise-modal.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ExercisesListComponent,
     ExercisesRowComponent,
     ExercisesModalComponent,
+    AddExerciseModalComponent,
   ],
   imports: [
     BrowserModule,

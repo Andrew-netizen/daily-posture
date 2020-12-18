@@ -1,0 +1,47 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">ADD EXERCISE</h4>
+  <button
+    type="button"
+    class="btn btn-outline-secondary"
+    aria-label="Close"
+    (click)="activeModal.close('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="addExerciseForm" (ngSubmit)="createExercise(addExerciseForm)">
+  <div class="modal-body">
+    <div class="container">
+      <div class="form-group">
+        <label for="titleInput">Title</label>
+        <input
+          type="text"
+          class="form-control"
+          id="titleInput"
+          [formControl]="addExerciseForm.controls['title']"
+        />
+      </div>
+    </div>
+    <div class="container">
+      <div class="form-group">
+        <label for="descriptionInput">Description</label>
+        <input
+          type="text"
+          class="form-control"
+          id="descriptionIinput"
+          [formControl]="addExerciseForm.controls['description']"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="!addExerciseForm.valid"
+      ngbAutoFocus
+    >
+      CREATE
+    </button>
+  </div>
+</form>

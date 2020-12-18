@@ -57,4 +57,8 @@ export class TimerComponent implements OnInit, OnDestroy {
   resetTimer(): void {
     this.countdownService.resetTimer(this.settingsState.TotalTime.totalSeconds);
   }
+
+  skipExercise(): void {
+    this.exerciseService.cycleNextExercise();
+  }
 }

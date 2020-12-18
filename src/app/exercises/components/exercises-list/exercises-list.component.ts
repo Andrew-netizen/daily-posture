@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Exercise } from '../../../core/exercise.model';
 
 @Component({
@@ -8,6 +8,15 @@ import { Exercise } from '../../../core/exercise.model';
 })
 export class ExercisesListComponent  {
   @Input() exercises: Exercise[];
+  @Output() exerciseDeleted = new EventEmitter<Exercise>();
+  @Output() addExerciseClicked = new EventEmitter();
 
+  onExerciseDeleted(exercise: Exercise): void {
+    this.exerciseDeleted.emit(exercise);
+  }
+
+  onAddExerciseClicked(): void {
+    this.addExerciseClicked.emit();
+  }
 
 }

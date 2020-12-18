@@ -1,1 +1,5 @@
-<app-exercises-list [exercises]="exercises$ | async "></app-exercises-list>
+<app-exercises-list
+  [exercises]="exercises$ | async"
+  (exerciseDeleted)="onExerciseDeleted($event)"
+  (addExerciseClicked)="onAddExerciseClicked()"
+></app-exercises-list>

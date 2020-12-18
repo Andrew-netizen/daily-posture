@@ -1,4 +1,6 @@
-import { Component, Input} from '@angular/core';
+import { Component, Input, Output} from '@angular/core';
+import { EventEmitter } from '@angular/core';
+import { ExerciseService } from 'src/app/services/exercise.service';
 import { Exercise } from '../../../core/exercise.model';
 
 @Component({
@@ -8,7 +10,9 @@ import { Exercise } from '../../../core/exercise.model';
 })
 export class ExercisesRowComponent {
   @Input() exercise: Exercise;
+  @Output() exerciseDeleted = new EventEmitter<Exercise>();
 
-
-
+  onExerciseDeleted(exercise: Exercise): void {
+    this.exerciseDeleted.emit(exercise);
+  }
 }

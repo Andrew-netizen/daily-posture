@@ -3,6 +3,15 @@
     <h5>EXERCISES</h5>
   </div>
   <ul class="list-group list-group-flush">
-    <app-exercises-row *ngFor="let myExercise of exercises" [exercise]="myExercise"></app-exercises-row>
+    <app-exercises-row
+      *ngFor="let myExercise of exercises"
+      [exercise]="myExercise"
+      (exerciseDeleted)="onExerciseDeleted($event)"
+    ></app-exercises-row>
   </ul>
+  <div class="card-footer">
+    <button class="btn btn-primary" (click)="onAddExerciseClicked()">
+      ADD EXERCISE
+    </button>
+  </div>
 </div>

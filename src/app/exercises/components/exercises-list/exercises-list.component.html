@@ -4,9 +4,11 @@
   </div>
   <ul class="list-group list-group-flush">
     <app-exercises-row
-      *ngFor="let myExercise of exercises"
+      *ngFor="let myExercise of exercises; let exerciseIndex = index;"
       [exercise]="myExercise"
+      [rowIndex]="exerciseIndex"
       (exerciseDeleted)="onExerciseDeleted($event)"
+      (exerciseTitleClicked)="onExerciseTitleClicked($event)"
     ></app-exercises-row>
   </ul>
   <div class="card-footer">

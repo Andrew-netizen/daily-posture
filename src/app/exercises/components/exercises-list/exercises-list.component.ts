@@ -8,8 +8,10 @@ import { Exercise } from '../../../core/exercise.model';
 })
 export class ExercisesListComponent  {
   @Input() exercises: Exercise[];
-  @Output() exerciseDeleted = new EventEmitter<Exercise>();
   @Output() addExerciseClicked = new EventEmitter();
+  @Output() exerciseDeleted = new EventEmitter<Exercise>();
+  @Output() exerciseTitleClicked = new EventEmitter<number>();
+
 
   onExerciseDeleted(exercise: Exercise): void {
     this.exerciseDeleted.emit(exercise);
@@ -19,4 +21,7 @@ export class ExercisesListComponent  {
     this.addExerciseClicked.emit();
   }
 
+  onExerciseTitleClicked(index: number): void {
+    this.exerciseTitleClicked.emit(index);
+  }
 }

@@ -1,6 +1,6 @@
 <li class="list-group-item">
   <div class="d-flex">
-    <div class="p-2 flex-grow-1">{{ exercise.title }}</div>
+    <div class="p-2 flex-grow-1" (click)="onExerciseTitleClicked()">{{ exercise.title }}</div>
     <button
       class="btn btn-primary text-right"
       (click)="onExerciseDeleted(exercise)"

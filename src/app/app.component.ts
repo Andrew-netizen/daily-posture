@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { ExercisesModalComponent } from './exercises/components/exercise-modal/exercise-modal.component';
 import { CountdownService } from './services/countdown.service';
 import { ExerciseService } from './services/exercise.service';
@@ -26,7 +26,7 @@ export class AppComponent {
     nextExerciseTitle: string,
     nextExerciseDescription: string
   ): Promise<void> {
-    const modalRef = await this.modalService.open(ExercisesModalComponent);
+    const modalRef = await this.modalService.open(ExercisesModalComponent, this.exerciseModalOptions);
     modalRef.componentInstance.nextExerciseTitle = nextExerciseTitle;
     modalRef.componentInstance.nextExerciseDescription = nextExerciseDescription;
     modalRef.result.then((result) => {
@@ -35,5 +35,11 @@ export class AppComponent {
         this.exerciseService.cycleNextExercise();
       }
     });
+  }
+
+  exerciseModalOptions: NgbModalOptions  = {
+    backdrop: 'static',
+    keyboard: false,
+    centered: true
   }
 }

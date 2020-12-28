@@ -7,20 +7,28 @@ import { ExercisesSettingsStore } from '../core/exercises-settings.store';
 
 const exercisesKey: string = 'DAILY_POSTURE_EXERCISE_LIST';
 
+class UpdatedExerciseInformation {
+  constructor(public exercise: Exercise, public index: number) {}
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class ExerciseService implements OnDestroy {
-
-  private exerciseIndex: number = 0;
   private exerciseIndex$ = new BehaviorSubject<number>(0);
-  private exerciseCount: number;
-  private exerciseToDelete$ = new BehaviorSubject<Exercise | null>(null);
-  private exerciseToAdd$ = new BehaviorSubject<Exercise | null>(null);
   private exercisesSettingsStore: ExercisesSettingsStore;
 
-  private exerciseToDeleteSubscription: Subscription;
+  private exerciseToAdd$ = new BehaviorSubject<Exercise | null>(null);
+  private exerciseToDelete$ = new BehaviorSubject<Exercise | null>(null);
+  private exerciseToUpdate$ = new BehaviorSubject<UpdatedExerciseInformation | null>(
+    null
+  );
+  private exerciseCycled$ = new BehaviorSubject<boolean>(false);
+
+  private exerciseCycledSubscription: Subscription;
   private exerciseToAddSubscription: Subscription;
+  private exerciseToDeleteSubscription: Subscription;
+  private exerciseToUpdateSubscription: Subscription;
 
   public nextExercise$: Observable<Exercise>;
 
@@ -40,7 +48,6 @@ export class ExerciseService implements OnDestroy {
       if (localStorageExercisesState instanceof ExercisesSettingsState) {
         this.exercisesSettingsStore = new ExercisesSettingsStore();
         this.exercisesSettingsStore.setState(localStorageExercisesState);
-        this.exerciseCount = localStorageExercisesState.Exercises.length;
         stateSetFromLocalStorage = true;
       }
     }
@@ -49,15 +56,19 @@ export class ExerciseService implements OnDestroy {
       let state = new ExercisesSettingsState(this.defaultExercises());
       this.exercisesSettingsStore = new ExercisesSettingsStore();
       this.saveExercises(state);
-      this.exerciseCount = state.Exercises.length;
     }
 
     this.exerciseToDeleteSubscription = this.exerciseToDelete$
       .pipe(
-        withLatestFrom(this.exercises$),
-        map(([deletedExercise, exercises]) => {
-          if (exercises && deletedExercise)
-            return exercises.filter((item) => item != deletedExercise);
+        withLatestFrom(this.exercises$, this.exerciseIndex$),
+        map(([deletedExercise, exercises, exerciseIndex]) => {
+          if (exercises && deletedExercise) {
+            var result = exercises.filter((item) => item != deletedExercise);
+            if (exerciseIndex != null && exerciseIndex >= result.length) {
+              this.exerciseIndex$.next(result.length - 1);
+            }
+            return result;
+          }
         })
       )
       .subscribe((result) => {
@@ -84,6 +95,23 @@ export class ExerciseService implements OnDestroy {
         }
       });
 
+    this.exerciseToUpdateSubscription = this.exerciseToUpdate$
+      .pipe(
+        withLatestFrom(this.exercises$),
+        map(([updatedExercise, exercises]) => {
+          if (exercises && updatedExercise) {
+            exercises[updatedExercise.index] = updatedExercise.exercise;
+            return exercises;
+          }
+        })
+      )
+      .subscribe((value) => {
+        if (value) {
+          const updatedExerciseState = new ExercisesSettingsState(value);
+          this.saveExercises(updatedExerciseState);
+        }
+      });
+
     this.nextExercise$ = combineLatest([
       this.exercisesSettingsStore.exercises$,
       this.exerciseIndex$,
@@ -92,22 +120,37 @@ export class ExerciseService implements OnDestroy {
         if (exercisesList) return exercisesList[index];
       })
     );
+
+    this.exerciseCycledSubscription = this.exerciseCycled$
+      .pipe(
+        withLatestFrom(this.exercises$, this.exerciseIndex$),
+        map(([exerciseCycled, exercises, exerciseIndex]) => {
+          if (exerciseCycled && exercises && exerciseIndex != null) {
+            if (exerciseIndex + 1 < exercises.length) return exerciseIndex + 1;
+            else return 0;
+          }
+        })
+      )
+      .subscribe((value) => {
+        if (value != null) {
+          this.exerciseIndex$.next(value);
+        }
+      });
   }
 
   ngOnDestroy(): void {
+    this.exerciseCycledSubscription.unsubscribe();
     this.exerciseToAddSubscription.unsubscribe();
     this.exerciseToDeleteSubscription.unsubscribe();
+    this.exerciseToUpdateSubscription.unsubscribe();
   }
 
   addExercise(exercise: Exercise): void {
     this.exerciseToAdd$.next(exercise);
-    this.exerciseCount = this.exerciseCount + 1;
   }
 
   cycleNextExercise(): void {
-    if (this.exerciseIndex + 1 < this.exerciseCount) this.exerciseIndex++;
-    else this.exerciseIndex = 0;
-    this.exerciseIndex$.next(this.exerciseIndex);
+    this.exerciseCycled$.next(true);
   }
 
   defaultExercises(): Exercise[] {
@@ -122,7 +165,6 @@ export class ExerciseService implements OnDestroy {
 
   deleteExercise(exercise: Exercise): void {
     this.exerciseToDelete$.next(exercise);
-    this.exerciseCount = this.exerciseCount - 1;
   }
 
   saveExercises(exercisesSettingsState: ExercisesSettingsState) {
@@ -131,5 +173,10 @@ export class ExerciseService implements OnDestroy {
       exercisesKey,
       JSON.stringify(exercisesSettingsState.toJSON())
     );
+  }
+
+  updateExercise(exercise: Exercise, index: number): void {
+    const exerciseUpdateInfo = new UpdatedExerciseInformation(exercise, index);
+    this.exerciseToUpdate$.next(exerciseUpdateInfo);
   }
 }

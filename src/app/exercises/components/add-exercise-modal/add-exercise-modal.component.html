@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">ADD EXERCISE</h4>
+  <h4 class="modal-title" id="modal-basic-title">{{pageTitle}}</h4>
   <button
     type="button"
     class="btn btn-outline-secondary"
@@ -38,10 +38,10 @@
     <button
       type="submit"
       class="btn btn-primary"
-      [disabled]="!addExerciseForm.valid"
+      [disabled]="!addExerciseForm.valid || !addExerciseForm.dirty"
       ngbAutoFocus
     >
-      CREATE
+      {{saveButtonText}}
     </button>
   </div>
 </form>

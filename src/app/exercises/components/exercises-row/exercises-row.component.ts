@@ -10,9 +10,15 @@ import { Exercise } from '../../../core/exercise.model';
 })
 export class ExercisesRowComponent {
   @Input() exercise: Exercise;
+  @Input() rowIndex: number;
   @Output() exerciseDeleted = new EventEmitter<Exercise>();
+  @Output() exerciseTitleClicked = new EventEmitter<number>();
 
   onExerciseDeleted(exercise: Exercise): void {
     this.exerciseDeleted.emit(exercise);
+  }
+
+  onExerciseTitleClicked(): void {
+    this.exerciseTitleClicked.emit(this.rowIndex);
   }
 }

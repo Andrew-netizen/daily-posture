@@ -34,6 +34,10 @@ export class AppComponent {
         this.synthesisService.acknowledgeMessage();
         this.exerciseService.cycleNextExercise();
       }
+      else
+      {
+        this.synthesisService.acknowledgeMessage();
+      }
     });
   }
 

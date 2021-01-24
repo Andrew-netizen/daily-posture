@@ -34,9 +34,9 @@
     "@angular-devkit/build-angular": "~0.1100.0",
     "@angular/cli": "~11.0.0",
     "@angular/compiler-cli": "~11.0.0",
-    "@types/node": "^12.11.1",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
+    "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
@@ -48,6 +48,19 @@
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
-    "typescript": "~4.0.2"
-  }
+    "typescript": "^4.0.5"
+  },
+  "description": "This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.0.",
+  "main": "karma.conf.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Andrew-netizen/daily-posture.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Andrew-netizen/daily-posture/issues"
+  },
+  "homepage": "https://github.com/Andrew-netizen/daily-posture#readme"
 }

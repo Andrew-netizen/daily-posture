@@ -13,18 +13,18 @@
       </div>
       <div class="row no-gutters">
         <div class="col col-4 col-centered">
-          <button class="btn btn-primary" (click)="startTimer()" style="width:5rem">PLAY</button>
+          <button class="btn btn-primary" id="playButtonId" (click)="startTimer()" style="width:5rem">PLAY</button>
         </div>
         <div class="col col-4 col-centered">
-          <button class="btn btn-primary" (click)="pauseTimer()" style="width:5rem">PAUSE</button>
+          <button class="btn btn-primary" id="pauseButtonId" (click)="pauseTimer()" style="width:5rem">PAUSE</button>
         </div>
         <div class="col col-4 col-centered">
-          <button class="btn btn-primary" (click)="resetTimer()" style="width:5rem">RESET</button>
+          <button class="btn btn-primary" id="resetButtonId" (click)="resetTimer()" style="width:5rem">RESET</button>
         </div>
       </div>
       <div class="card-body text-center" >
             Next Exercise: {{ (nextExercise$ | async).title }}
-            <button type="button" class="btn btn-primary btn-block mt-3"(click)="skipExercise()">
+            <button type="button" id="skipButtonId" class="btn btn-primary btn-block mt-3"(click)="skipExercise()">
               SKIP EXERCISE
             </button>
       </div>

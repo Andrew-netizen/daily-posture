@@ -160,6 +160,7 @@ export class ExerciseService implements OnDestroy {
       new Exercise('Bird Dog', 'Do 12 bird dog exercises'),
       new Exercise('Thread the Needle', 'Do 10 lots of thread the needle'),
       new Exercise('Pigeon Stretch', 'Do 5 pigeon stretches on each leg'),
+      new Exercise('Hamstring stretches', 'Stretch each hamstring with a  towel'),
     ];
   }
 
